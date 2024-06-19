@@ -1,0 +1,21 @@
+{
+    "name": "mahisi11/contact",
+    "description": "A contact form handling package for the MeteoTFE project.",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "phpmailer/phpmailer": "^6.5" 
+    },
+    "autoload": {
+        "psr-4": {
+            "Mahisi11\\Contact\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Simon",
+            "email": "contact@meteotfe.be"
+        }
+    ]
+}

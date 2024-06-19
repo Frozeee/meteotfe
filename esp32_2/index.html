@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station météo intérieure</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.4/raphael-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.4.0/justgage.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid" style="max-width: 1200px; margin: auto;">
+            <a class="navbar-brand" href="../index.html">Ma Station Météo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../info/index.html">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../service/index.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../contact/index.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1 class="titre">Station météo intérieure</h1>
+    <p id="lastReading" class="last-reading"></p>
+    
+    <div class="container">
+        <div class="gauge-section" id="temperatureSection">
+            <div id="tempGauge" class="gauge-container"></div>
+            <div class="readings">
+                <h2>Température</h2>
+                <div class="readings-row">
+                    <div class="reading-item">
+                        <p>Min: <span id="minTemp"></span> °C</p>
+                        <p class="time" id="minTempTime"></p>
+                    </div>
+                    <div class="reading-item">
+                        <p>Max: <span id="maxTemp"></span> °C</p>
+                        <p class="time" id="maxTempTime"></p>
+                    </div>
+                    <div class="reading-item">
+                        <p>Moyenne: <span id="avgTemp"></span> °C</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gauge-section" id="humiditySection">
+            <div id="humidityGauge" class="gauge-container"></div>
+            <div class="readings">
+                <h2>Humidité</h2>
+                <div class="readings-row">
+                    <div class="reading-item">
+                        <p>Min: <span id="minHumidity"></span> %</p>
+                        <p class="time" id="minHumidityTime"></p>
+                    </div>
+                    <div class="reading-item">
+                        <p>Max: <span id="maxHumidity"></span> %</p>
+                        <p class="time" id="maxHumidityTime"></p>
+                    </div>
+                    <div class="reading-item">
+                        <p>Moyenne: <span id="avgHumidity"></span> %</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="gauge-section" id="vocIndexSection">
+            <div class="readings-row">
+                <div class="reading-item">
+                    <div class="progress">
+                        <div id="vocIndexBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h2>Qualité de l'air</h2>
+                    <p id="vocIndexValue"></p>
+                    <p id="vocIndexLevel"></p> 
+                    <p id="vocIndexDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createGauge(elementId, label, max, unit) {
+            return new JustGage({
+                id: elementId,
+                value: 0,
+                min: 0,
+                max: max,
+                title: label,
+                label: unit,
+                pointer: true,
+                gaugeWidthScale: 0.6,
+                counter: true,
+                hideInnerShadow: true,
+                levelColors: ["#00ff00", "#0000ff", "#ffff00", "#ffa500", "#ff0000"],
+                valueFontColor: "#000000",
+                decimals: 2
+            });
+        }
+
+        var tempGauge = createGauge("tempGauge", "Température", 50, "°C");
+        var humidityGauge = createGauge("humidityGauge", "Humidité", 100, "%");
+
+        function updateGauges(temperature, humidity) {
+            tempGauge.refresh(parseFloat(temperature).toFixed(2));
+            humidityGauge.refresh(parseFloat(humidity).toFixed(2));
+        }
+
+        function updateVocIndex(vocIndex) {
+            const vocIndexPercent = (vocIndex / 500) * 100; 
+            document.getElementById('vocIndexBar').style.width = `${vocIndexPercent}%`;
+            document.getElementById('vocIndexBar').ariaValueNow = vocIndexPercent;
+            document.getElementById('vocIndexValue').innerText = `${vocIndex.toFixed(2)} cov`;
+            document.getElementById('vocIndexLevel').innerText = `(Niveau de cov : ${vocIndex.toFixed(2)})`;
+
+            let description = "";
+            if (vocIndex <= 100) {
+                description = "Bonne qualité de l'air";
+            } else if (vocIndex <= 200) {
+                description = "Acceptable, mais une légère ventilation peut être nécessaire";
+            } else if (vocIndex <= 400) {
+                description = "Qualité de l'air médiocre, ventilation recommandée";
+            } else {
+                description = "Très mauvaise qualité de l'air, ventilation intense nécessaire";
+            }
+            document.getElementById('vocIndexDescription').innerText = description;
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
+
+        function updateReadings(minTemp, maxTemp, avgTemp, minTempTime, maxTempTime, minHumidity, maxHumidity, avgHumidity, minHumidityTime, maxHumidityTime, lastReading, vocIndex) {
+            document.getElementById('minTemp').innerText = parseFloat(minTemp).toFixed(2);
+            document.getElementById('maxTemp').innerText = parseFloat(maxTemp).toFixed(2);
+            document.getElementById('avgTemp').innerText = parseFloat(avgTemp).toFixed(2);
+            document.getElementById('minTempTime').innerText = formatTime(minTempTime);
+            document.getElementById('maxTempTime').innerText = formatTime(maxTempTime);
+            document.getElementById('minHumidity').innerText = parseFloat(minHumidity).toFixed(2);
+            document.getElementById('maxHumidity').innerText = parseFloat(maxHumidity).toFixed(2);
+            document.getElementById('avgHumidity').innerText = parseFloat(avgHumidity).toFixed(2);
+            document.getElementById('minHumidityTime').innerText = formatTime(minHumidityTime);
+            document.getElementById('maxHumidityTime').innerText = formatTime(maxHumidityTime);
+            document.getElementById('lastReading').innerText = `Dernière lecture: ${formatDateTime(lastReading)}`;
+            updateVocIndex(vocIndex);
+        }
+
+        async function fetchData() {
+            const response = await fetch('send.php');
+            const data = await response.json();
+            updateGauges(data.temperature, data.humidity);
+            updateReadings(data.minTemp, data.maxTemp, data.avgTemp, data.minTempTime, data.maxTempTime, data.minHumidity, data.maxHumidity, data.avgHumidity, data.minHumidityTime, data.maxHumidityTime, data.lastReading, data.vocIndex);
+        }
+
+        setInterval(fetchData, 5000);
+        fetchData();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station météo domotique</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1 class="titre">Accueil Station météo domotique</h1>
+        <p class="sous-titre">Travail de fin d'études: Mahieu Simon</p>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="info/index.html">À propos</a></li>
+                <li><a href="service/index.html">Services</a></li>
+                <li><a href="contact/index.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="current-data">
+            <h2>Données Actuelles</h2>
+            <div class="data-cards">
+                <div class="data-card">
+                    <h3>Température Extérieure</h3>
+                    <p id="temp-ext">--°C</p>
+                </div>
+                <div class="data-card">
+                    <h3>Humidité Extérieure</h3>
+                    <p id="hum-ext">--%</p>
+                </div>
+                <div class="data-card">
+                    <h3>Luminosité</h3>
+                    <p id="light">-- lux</p>
+                </div>
+                <div class="data-card">
+                    <h3>Température Intérieure</h3>
+                    <p id="temp-int">--°C</p>
+                </div>
+                <div class="data-card">
+                    <h3>Humidité Intérieure</h3>
+                    <p id="hum-int">--%</p>
+                </div>
+                <div class="data-card">
+                    <h3>Qualité d'air</h3>
+                    <p id="voc_index">--cov</p>
+                </div>
+            </div>
+        </section>
+        <div class="boutons-container">
+            <div class="bouton">
+                <a href="esp32_1/index.html" class="bouton-temp-ext">Données Extérieures</a>
+            </div>
+            <div class="bouton">
+                <a href="esp32_2/index.html" class="bouton-temp-int">Données Intérieures</a>
+            </div>
+            <div class="bouton">
+                <a href="database/index.html" class="bouton-bdd">Base de Données</a>
+            </div>
+            <div class="bouton">
+                <a href="graphique/index.html" class="bouton-graphique">Graphiques</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mahieu Simon. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

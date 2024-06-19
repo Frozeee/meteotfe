@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphiques de Température des ESP32</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar">
+        <div class="container-fluid" style="max-width: 1200px; margin: auto;">
+            <a class="navbar-brand custom-navbar-brand" href="../index.html">Ma Station Météo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto custom-navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link custom-nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link custom-nav-link" href="../info/index.html">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link custom-nav-link" href="../service/index.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link custom-nav-link" href="../contact/index.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h1 class="main-title">Graphiques de Température des ESP32</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="card-title">Température Extérieures (°C)</h2>
+                <div class="buttons">
+                    <button onclick="updateChart('temperature', 'hour', 'esp32_1')">Dernière Heure</button>
+                    <button onclick="updateChart('temperature', 'day', 'esp32_1')">Journée</button>
+                    <button onclick="updateChart('temperature', 'week', 'esp32_1')">Semaine</button>
+                </div>
+                <canvas id="temperatureChart1"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h2 class="card-title">Température Intérieures (°C)</h2>
+                <div class="buttons">
+                    <button onclick="updateChart('temperature', 'hour', 'esp32_2')">Dernière Heure</button>
+                    <button onclick="updateChart('temperature', 'day', 'esp32_2')">Journée</button>
+                    <button onclick="updateChart('temperature', 'week', 'esp32_2')">Semaine</button>
+                </div>
+                <canvas id="temperatureChart2"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de données</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid" style="max-width: 1200px; margin: auto;">
+            <a class="navbar-brand" href="../index.html">Ma Station Météo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../info/index.html">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../service/index.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../contact/index.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="titre">Base de données</h1>
+        <div class="mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="filterDay">Filtrer par jour :</label>
+                    <select id="filterDay" class="form-control mr-2" onchange="filterData()">
+                        <option value="all">Tout</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="yesterday">Hier</option>
+                        <option value="before_yesterday">Avant-hier</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="filterSource">Filtrer par source :</label>
+                    <select id="filterSource" class="form-control" onchange="filterData()">
+                        <option value="all">Tout</option>
+                        <option value="interieur">Intérieur</option>
+                        <option value="exterieur">Extérieur</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <input type="text" id="searchInput" onkeyup="searchTable()" class="form-control mb-4" placeholder="Rechercher...">
+        <table id="dataTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Température (°C)</th>
+                    <th>Humidité (%)</th>
+                    <th>Luminosité (Lux)</th>
+                    <th>Qualité de l'air (cov)</th>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Source</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+        <button id="loadMore" class="btn btn-primary" onclick="loadMoreData()">Charger plus</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        var currentPage = 0; 
+
+        function loadMoreData() {
+            currentPage++; 
+            var filterDay = $('#filterDay').val();
+            var filterSource = $('#filterSource').val();
+
+            $.ajax({
+                url: 'send.php',
+                type: 'GET',
+                data: {
+                    page: currentPage,
+                    filterDay: filterDay,
+                    filterSource: filterSource
+                },
+                success: function(data) {
+                    if (data.trim().length == 0) {
+                        $('#loadMore').hide(); 
+                    } else {
+                        $('#dataTable tbody').append(data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erreur lors du chargement des données:', error);
+                    console.error('Status:', status);
+                    console.error('XHR:', xhr);
+                    alert('Erreur lors du chargement des données');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            loadMoreData();
+        });
+
+        $('#filterDay, #filterSource').change(function() {
+            currentPage = 0;
+            $('#dataTable tbody').empty();
+            $('#loadMore').show();
+            loadMoreData();
+        });
+
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) { 
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        function filterData() {
+            var filterDay, filterSource, table, tr, td, i, date, source, today, yesterday, beforeYesterday;
+            filterDay = document.getElementById("filterDay").value;
+            filterSource = document.getElementById("filterSource").value;
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+            today = new Date();
+            yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            beforeYesterday = new Date(today);
+            beforeYesterday.setDate(today.getDate() - 2);
+
+            for (i = 1; i < tr.length; i++) { 
+                tr[i].style.display = "";
+                if (tr[i].getElementsByTagName("td").length > 0) {
+                    date = new Date(tr[i].getElementsByTagName("td")[4].innerText.split('/').reverse().join('-'));
+                    source = tr[i].getElementsByTagName("td")[6].innerText.toLowerCase();
+
+                    if (filterDay != "all") {
+                        if (filterDay == "today" && date.toDateString() != today.toDateString()) {
+                            tr[i].style.display = "none";
+                        }
+                        if (filterDay == "yesterday" && date.toDateString() != yesterday.toDateString()) {
+                            tr[i].style.display = "none";
+                        }
+                        if (filterDay == "before_yesterday" && date.toDateString() != beforeYesterday.toDateString()) {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                    if (filterSource != "all" && source != filterSource) {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

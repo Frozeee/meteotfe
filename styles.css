@@ -1,0 +1,179 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.titre {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+.sous-titre {
+    margin: 10px 0 0;
+    font-size: 1.2em;
+    font-weight: 400;
+}
+
+nav {
+    margin-top: 20px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-links li {
+    margin: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ddd;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+.current-data {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.data-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.data-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(100% - 40px);
+    max-width: calc(100% - 40px);
+    text-align: center;
+}
+
+.data-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.data-card p {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 400;
+}
+
+.charts {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.charts canvas {
+    max-width: 100%;
+    margin: 0 auto 20px;
+}
+
+.boutons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.bouton a {
+    display: block;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2em;
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bouton-temp-ext {
+    background-color: #ff6f61;
+}
+
+.bouton-temp-int {
+    background-color: #6fa3ef;
+}
+
+.bouton-bdd {
+    background-color: #ffcd56;
+}
+
+.bouton-graphique {
+    background-color: #81c784;
+}
+
+.bouton a:hover {
+    background-color: #888;
+    transform: scale(1.05);
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+@media (min-width: 600px) {
+    .data-card {
+        flex: 1 1 calc(33.333% - 40px);
+        max-width: calc(33.333% - 40px);
+    }
+
+    .bouton a {
+        padding: 60px;
+        font-size: 1.8em;
+    }
+}
+
+@media (min-width: 900px) {
+    .data-card {
+        flex: 1 1 calc(25% - 40px);
+        max-width: calc(25% - 40px);
+    }
+
+    .boutons-container {
+        flex-wrap: nowrap;
+    }
+}

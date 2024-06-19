@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Projet TFE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <a href="#" onclick="history.back();">Retour</a>
+        </div>
+        <div class="content">
+            <h1>Nos Services</h1>
+            <div class="section">
+                <h2>Connexion aux services</h2>
+                <div class="services">
+                    <div class="service-item">
+                        <a href="#" onclick="checkPassword('webadmin')">
+                            <img src="images/webadmin.png" alt="Webadmin">
+                            <p>Webadmin</p>
+                        </a>
+                    </div>
+                    <div class="service-item">
+                        <a href="#" onclick="checkPassword('ssh')">
+                            <img src="images/ssh.png" alt="SSH">
+                            <p>Connexion SSH</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Services utilisés</h2>
+                <div class="services">
+                    <div class="service-item">
+                        <a href="https://certbot.eff.org/instructions?ws=apache&os=ubuntufocal" target="_blank">
+                            <img src="images/certbot.png" alt="Certbot">
+                            <p>Certbot</p>
+                        </a>
+                    </div>
+                    <div class="service-item">
+                        <a href="https://httpd.apache.org/" target="_blank">
+                            <img src="images/apache2.png" alt="Apache2">
+                            <p>Apache2</p>
+                        </a>
+                    </div>
+                    <div class="service-item">
+                        <a href="https://www.mysql.com/fr/" target="_blank">
+                            <img src="images/mysql.png" alt="MySQL">
+                            <p>MySQL</p>
+                        </a>
+                    </div>
+                    <div class="service-item">
+                        <a href="https://ubuntu.com/download/server" target="_blank">
+                            <img src="images/ubuntu-server.png" alt="Ubuntu Serveur">
+                            <p>Ubuntu Serveur</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function checkPassword(service) {
+            const password = prompt("Veuillez entrer le mot de passe pour accéder à ce service:");
+            const correctPassword = "///"; 
+
+            if (password === correctPassword) {
+                if (service === 'webadmin') {
+                    window.location.href = "http://91.180.141.75:10000/";
+                } else if (service === 'ssh') {
+                    copySSHCommand();
+                }
+            } else {
+                alert("Mot de passe incorrect. Accès refusé.");
+            }
+        }
+
+        function copySSHCommand() {
+            const sshCommand = "ssh -p 22 user@91.180.141.75";
+            navigator.clipboard.writeText(sshCommand).then(() => {
+                alert("La commande SSH a été copiée dans le presse-papiers :\n" + sshCommand);
+            }, (err) => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

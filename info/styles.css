@@ -1,0 +1,90 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 60%;
+    max-width: 800px;
+    min-width: 600px;
+    padding: 40px;
+    background: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.back-button a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.back-button a:hover {
+    background-color: #333;
+    color: white;
+}
+
+.content {
+    margin: 50px 0 0 0;
+    text-align: justify;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.signature {
+    text-align: right;
+    font-style: italic;
+    margin-top: 50px;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        min-width: unset;
+        padding: 20px;
+    }
+
+    .back-button {
+        top: 5px;
+        left: 5px;
+    }
+
+    .back-button a {
+        padding: 3px 8px;
+        font-size: 0.9em;
+    }
+
+    .content {
+        margin: 20px 0 0 0;
+    }
+
+    p {
+        margin-bottom: 15px;
+    }
+
+    .signature {
+        margin-top: 30px;
+    }
+}
